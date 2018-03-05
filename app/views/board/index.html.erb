@@ -1,0 +1,107 @@
+<% query_options = nil unless defined?(query_options) %>
+<% query_options ||= {} %>
+
+<h2><%= l(:label_workload_management) %></h2> <h3><%= l(:label_your_time_for_today) %>: <span class="today_time_value"><%= get_user_total_today_time %> hours</span></h3>
+<% html_title l(:label_workload_management) %>
+
+<div class="flash notice workload-management-flash-notice" id="flash_notice" style="display: none;"></div>
+
+<div id="errorExplanation" class="workload-management-errors" style="display: none;">
+  <ul>
+  </ul>
+</div>
+
+<%= form_tag('/board', :method => :get, :id => 'query_form') do %>
+  <%= render :partial => 'queries/filter_query_form' %>
+<% end %>
+
+<%= render_query_totals(@query) %>
+
+<div class="autoscroll">
+  <table class="list issues odd-even" style="width: 70%;">
+    <thead>
+    <tr>
+      <th>#</th>
+      <% @query.inline_columns.each do |column| %>
+        <% if column.caption == 'Project' %><%= column_header(@query, column, query_options) %><% end %>
+      <% end %>
+      <% @query.inline_columns.each do |column| %>
+          <% if column.caption == 'Status' %><%= column_header(@query, column, query_options) %><% end %>
+      <% end %>
+      <% @query.inline_columns.each do |column| %>
+        <% if column.caption == 'Priority' %><%= column_header(@query, column, query_options) %><% end %>
+      <% end %>
+      <th>Subject</th>
+      <th>Assignee</th>
+      <th>Estimated</th>
+      <th>Spent hours</th>
+      <% @query.inline_columns.each do |column| %>
+        <% if column.caption == settings_today_time_field_name %><%= column_header(@query, column, query_options) %><% end %>
+      <% end %>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% unless @issues.nil? %>
+      <% @issues.each do |issue| %>
+        <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+          <td class="id"><a href="/issues/<%= issue.id %>"><%= issue.id %></a></td>
+          <td class="project"><%= issue.project %></td>
+          <td class="status"><%= issue.status %></td>
+          <td class="priority"><%= issue.priority %></td>
+          <td class="subject"><%= issue.subject %></td>
+          <td class="assignee"><%= issue.assigned_to %></td>
+          <td class="estimated"><% unless issue.estimated_hours.nil? || issue.estimated_hours == 0 %><%= issue.estimated_hours.round(2) %><% end %></td>
+          <td class="spent"><% unless issue.spent_hours.nil? || issue.spent_hours == 0 %><%= issue.spent_hours.round(2) %><% end %></td>
+          <td class="time_for_today">
+            <span class="time_for_today_value"><%= get_total_for_today(issue) %></span>
+            <input type="text" class="time_for_today_input" style="display: none; width: 30%" data-issue-id="<%= issue.id %>"/>
+          </td>
+          <td class="actions">
+            <a class="icon icon-workflows will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_will_do_today) %></a>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% unless @issues.nil? %>
+  <span class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></span>
+<% end %>
+
+
+<%= javascript_include_tag 'will_do_today', :plugin     => 'daily_workload_management' %>
+<%= javascript_include_tag 'edit_time_for_today', :plugin => 'daily_workload_management' %>
+
+<!-- @TODO Move these styles to plugin assets-->
+<style type="text/css">
+  tr.odd.priority-highest, table.list tbody tr.odd.priority-highest:hover { color: #900; font-weight: bold; }
+  tr.odd.priority-highest { background: #ffc4c4; }
+  tr.even.priority-highest, table.list tbody tr.even.priority-highest:hover { color: #900; font-weight: bold; }
+  tr.even.priority-highest { background: #ffd4d4; }
+  tr.priority-highest a, tr.priority-5:hover a { color: #900; }
+  tr.odd.priority-highest td, tr.even.priority-highest td { border-color: #ffb4b4; }
+
+  tr.odd.priority-high2, table.list tbody tr.odd.priority-high4:hover { color: #900; }
+  tr.odd.priority-high2 { background: #ffc4c4; }
+  tr.even.priority-high2, table.list tbody tr.even.priority-high4:hover { color: #900; }
+  tr.even.priority-high2 { background: #ffd4d4; }
+  tr.priority-high2 a { color: #900; }
+  tr.odd.priority-high2 td, tr.even.priority-high4 td { border-color: #ffb4b4; }
+
+  tr.odd.priority-high3, table.list tbody tr.odd.priority-high3:hover { color: #900; }
+  tr.odd.priority-high3 { background: #fee; }
+  tr.even.priority-high3, table.list tbody tr.even.priority-high3:hover { color: #900; }
+  tr.even.priority-high3 { background: #fff2f2; }
+  tr.priority-high3 a { color: #900; }
+  tr.odd.priority-high3 td, tr.even.priority-high3 td { border-color: #fcc; }
+
+  tr.odd.priority-lowest, table.list tbody tr.odd.priority-lowest:hover { color: #559; }
+  tr.odd.priority-lowest { background: #eaf7ff; }
+  tr.even.priority-lowest, table.list tbody tr.even.priority-lowest:hover { color: #559; }
+  tr.even.priority-lowest { background: #f2faff; }
+  tr.priority-lowest a { color: #559; }
+  tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #add7f3; }
+</style>
