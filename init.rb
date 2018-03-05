@@ -8,6 +8,7 @@ Redmine::Plugin.register :daily_workload_management do
   description 'Plugin provides functionality for managing daily workload'
   version '1.0'
   author_url 'http://default-value.com/'
+  url 'https://github.com/DefaultValue/redmine-daily-workload-management'
 
   menu :top_menu, :board, { :controller => 'board', :action => 'index' }, :caption => :top_menu_workload_management
 
