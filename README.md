@@ -7,7 +7,7 @@ Plugin provides functionality for managing daily workload.
 1. Clone this plugin to your Redmine plugins directory:
 
 ```bash
-user@user:/path/to/redmine/plugins$ git clone git@github.com:DefaultValue/redmine-daily-workload-management.git daily_workload_management
+user@user:/path/to/redmine/plugins$ git clone https://github.com/DefaultValue/redmine-daily-workload-management.git daily_workload_management
 ```
 
 2. Restart Redmine to check plugin availability and configure its options.
@@ -24,7 +24,7 @@ Go to Workflow page (Administration > Workflow) and set usage of created 'today'
 
 6. Set up cron task for clearing 'Time for today' field value before business day starts (for instance: at 00:10):
 ```
-0   10    *    *    *    path/to/redmine/bin/rake clear_time_for_today_values RAILS_ENV=production
+10   0    *    *    *    path/to/redmine/bin/rake clear_time_for_today_values RAILS_ENV=production
 ``` 
 
 ## Usage
