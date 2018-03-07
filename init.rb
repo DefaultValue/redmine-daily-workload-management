@@ -1,4 +1,3 @@
-require_dependency '../../plugins/daily_workload_management/app/helpers/custom_fields_helper_patch'
 require_dependency '../../plugins/daily_workload_management/app/helpers/board_helper'
 require_dependency '../../plugins/daily_workload_management/app/models/issue_patch'
 
