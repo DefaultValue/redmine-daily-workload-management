@@ -7,7 +7,7 @@ Plugin provides functionality for managing daily workload.
 1. Clone this plugin to your Redmine plugins directory:
 
 ```bash
-user@user:/path/to/redmine/plugins$ git clone git@gitlab.allbugs.info:viktorn/daily-workload-management.git daily_workload_management
+user@user:/path/to/redmine/plugins$ git clone https://github.com/DefaultValue/redmine-daily-workload-management.git daily_workload_management
 ```
 
 2. Restart Redmine to check plugin availability and configure its options.
