@@ -26,7 +26,7 @@
         <% if column.caption == 'Project' %><%= column_header(@query, column, query_options) %><% end %>
       <% end %>
       <% @query.inline_columns.each do |column| %>
-          <% if column.caption == 'Status' %><%= column_header(@query, column, query_options) %><% end %>
+        <% if column.caption == 'Status' %><%= column_header(@query, column, query_options) %><% end %>
       <% end %>
       <% @query.inline_columns.each do |column| %>
         <% if column.caption == 'Priority' %><%= column_header(@query, column, query_options) %><% end %>

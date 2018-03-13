@@ -18,6 +18,7 @@ class BoardController < ApplicationController
   helper :timelog
 
   def find_projects
+    # @project variable must be set before calling the authorize filter
     @projects = User.current.projects.to_a
   end
 
