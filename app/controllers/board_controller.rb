@@ -52,7 +52,8 @@ class BoardController < ApplicationController
     issue_status      = IssueStatus.find_by_name(issue_status_name)
 
     if issue_status
-      @issue.status_id = issue_status.id
+      @issue.status_id      = issue_status.id
+      @issue.assigned_to_id = User.current.id
       @issue.custom_field_values.each do |field|
         if field.custom_field.name == settings_today_time_field_name
           field.value = params[:time]
@@ -73,7 +74,8 @@ class BoardController < ApplicationController
         :errors           => errors,
         :info             => l(:notification_issue_updated),
         :status           => issue_status_name,
-        :today_time_value => get_user_total_today_time
+        :today_time_value => get_user_total_today_time,
+        :assignee         => User.current.name
     }
   end
 
