@@ -20,7 +20,9 @@
                 "data":      {time: workTodayButton.closest(".issue").find(".time_for_today_value").html()},
                 "success":   function (response) {
                     if (response.success && response.success === true) {
-                        workTodayButton.closest(".issue").find(".status").html(response.status);
+                        var closest_issue = workTodayButton.closest(".issue");
+                        closest_issue.find(".status").html(response.status);
+                        closest_issue.find(".assignee").html(response.assignee);
                         $(".workload-management-flash-notice").show().html(response.info);
                         $(".today_time_value").html(response.today_time_value);
                     } else {
@@ -34,8 +36,7 @@
             });
         });
 
-        function hideFlash()
-        {
+        function hideFlash() {
             $(".workload-management-errors").hide();
             $(".workload-management-flash-notice").hide();
             $(".workload-management-errors").find("ul").html('');

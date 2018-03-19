@@ -54,8 +54,9 @@
           <td class="estimated"><% unless issue.estimated_hours.nil? || issue.estimated_hours == 0 %><%= issue.estimated_hours.round(2) %><% end %></td>
           <td class="spent"><% unless issue.spent_hours.nil? || issue.spent_hours == 0 %><%= issue.spent_hours.round(2) %><% end %></td>
           <td class="time_for_today">
-            <span class="time_for_today_value"><%= get_total_for_today(issue) %></span>
-            <input type="text" class="time_for_today_input" style="display: none; width: 30%" data-issue-id="<%= issue.id %>"/>
+            <% get_total_for_today(issue) %>
+            <span class="time_for_today_value"><%= @real_time %></span>
+            <input type="text" class="time_for_today_input" style="display: none; width: 30%" data-issue-id="<%= issue.id %>" value="<%= @suggested_time %>" />
           </td>
           <td class="actions">
             <a class="icon icon-workflows will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_will_do_today) %></a>

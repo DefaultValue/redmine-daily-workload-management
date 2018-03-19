@@ -1,21 +1,20 @@
 module BoardHelper
   def get_total_for_today(issue)
-    total_for_today = 0
+    real      = ''
+    suggested = 0
     issue.custom_field_values.each do |field|
       if field.custom_field.name == settings_today_time_field_name
         if field.value.nil? || field.value.to_f == 0.0
-          total_for_today = issue.estimated_hours.to_f - issue.spent_hours.to_f
+          suggested = issue.estimated_hours.to_f - issue.spent_hours.to_f
+          suggested = suggested < 0 ? 0 : suggested
         else
-          total_for_today = field.value.to_f
+          real = suggested = field.value.to_f
         end
       end
     end
 
-    if total_for_today < 0
-      return 0
-    end
-
-    return total_for_today.round(2)
+    @real_time = real
+    @suggested_time = suggested.round(2)
   end
 
   def settings_today_time_field_name
