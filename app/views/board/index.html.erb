@@ -59,6 +59,8 @@
           </td>
           <td class="actions">
             <a class="icon icon-workflows will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_will_do_today) %></a>
+            <a class="icon icon-summary will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_in_progress) %></a>
+            <a class="icon icon-ok will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_resolved) %></a>
           </td>
         </tr>
       <% end %>
