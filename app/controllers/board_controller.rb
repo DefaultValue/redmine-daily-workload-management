@@ -17,6 +17,9 @@ class BoardController < ApplicationController
   helper :repositories
   helper :timelog
 
+  IN_PROGRESS_STATUS_CODE = 1
+  RESOLVED_STATUS_CODE    = 2
+
   def find_projects
     # @project variable must be set before calling the authorize filter
     @projects = User.current.projects.to_a
@@ -76,6 +79,32 @@ class BoardController < ApplicationController
         :status           => issue_status_name,
         :today_time_value => get_user_total_today_time,
         :assignee         => User.current.name
+    }
+  end
+
+  def update_status
+    @issue            = Issue.find(params[:id])
+    status_code       = params[:status].to_f
+    issue_status_name = status_code == IN_PROGRESS_STATUS_CODE ? settings_in_progress_status_name : settings_resolved_status_name
+    issue_status      = IssueStatus.find_by_name(issue_status_name)
+
+    if issue_status
+      @issue.status_id      = issue_status.id
+      @issue.assigned_to_id = User.current.id
+      @issue.save(:validate => true)
+
+      errors        = @issue.errors.full_messages
+      is_successful = errors.empty?
+    else
+      errors        = l(:notification_no_status_today_time)
+      is_successful = false
+    end
+
+    render :json => {
+        :success          => is_successful,
+        :errors           => errors,
+        :info             => l(:notification_issue_updated),
+        :status           => issue_status_name,
     }
   end
 
