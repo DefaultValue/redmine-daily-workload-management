@@ -4,11 +4,30 @@
 <h2><%= l(:label_workload_management) %></h2> <h3><%= l(:label_your_time_for_today) %>: <span class="today_time_value"><%= get_user_total_today_time %> hours</span></h3>
 <% html_title l(:label_workload_management) %>
 
-<div class="flash notice workload-management-flash-notice" id="flash_notice" style="display: none;"></div>
+<style>
+  .flash-notice-overlay {
+    position: relative;
+  }
+  .flash-notice-overlay #errorExplanation.workload-management-errors,
+  .flash-notice-overlay #flash_notice.workload-management-flash-notice {
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+    width: 30%;
+    margin: 0 auto;
+  }
+</style>
 
-<div id="errorExplanation" class="workload-management-errors" style="display: none;">
-  <ul>
-  </ul>
+<div class="flash-notice-overlay">
+  <div class="flash notice workload-management-flash-notice" id="flash_notice" style="display: none;"></div>
+</div>
+
+<div class="flash-notice-overlay">
+  <div id="errorExplanation" class="workload-management-errors" style="display: none;">
+    <ul>
+    </ul>
+  </div>
 </div>
 
 <%= form_tag('/board', :method => :get, :id => 'query_form') do %>
