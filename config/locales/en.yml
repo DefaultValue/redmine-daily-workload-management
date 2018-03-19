@@ -10,3 +10,5 @@ en:
   notification_should_be_greater:    "should be less than left time (%{left_hours})"
   settings_select_custom_field:      "Custom field for specifying your today's work time ('Time for today')"
   settings_select_status:            Issue status for 'time for today' field
+  label_mark_in_progress:            In progress
+  label_mark_resolved:               Resolved
