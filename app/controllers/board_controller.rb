@@ -88,7 +88,7 @@ class BoardController < ApplicationController
     @issue.custom_field_values.each do |field|
       if field.custom_field.name == settings_today_time_field_name
         field.value = params[:time]
-        is_changed  = field.value_was != field.value
+        is_changed  = field.value_was != field.value && field.value.to_f != 0
       end
     end
 

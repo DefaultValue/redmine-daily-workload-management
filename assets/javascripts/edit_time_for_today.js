@@ -15,7 +15,7 @@
 
             oldTimeForTodayValue = $timeValue.html();
 
-            $timeInput.val($timeValue.html()).show().focus();
+            $timeInput.show().focus();
             $timeValue.hide();
         });
 
@@ -25,19 +25,16 @@
             e.stopPropagation();
 
             $(".workload-management-flash-notice").hide();
-
-            var $this        = $(this);
-            var inputValue   = $this.val();
-            var initialValue = $this.siblings(".time_for_today_value").html();
-            if (inputValue && parseFloat(inputValue) !== parseFloat(initialValue)) {
-                updateTimeForToday.apply(this, [$this.attr("data-issue-id"), inputValue]);
-            }
-
             $(".time_for_today_input").hide();
             $(".time_for_today_value").show();
         });
+
         $timeForTodayInput.on( "keydown", function (e) {
             if (e.which === 13 || e.keyCode === 13) {
+                var $this        = $(this);
+                var inputValue   = $this.val();
+                updateTimeForToday.apply(this, [$this.attr("data-issue-id"), inputValue]);
+
                 $(this).blur();
             }
         });
