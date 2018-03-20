@@ -63,6 +63,7 @@ class BoardController < ApplicationController
         end
       end
 
+      BoardHelper.setHandleBoardUpdate(true)
       @issue.save(:validate => true)
 
       errors        = @issue.errors.full_messages
@@ -122,6 +123,7 @@ class BoardController < ApplicationController
     end
 
     if is_changed
+      BoardHelper.setHandleBoardUpdate(true)
       @issue.save(:validate => true)
 
       errors        = @issue.errors.full_messages
