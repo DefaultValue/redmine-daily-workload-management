@@ -74,7 +74,6 @@ class BoardController < ApplicationController
         :errors           => errors,
         :info             => l(:notification_issue_updated),
         :status           => issue_status_name,
-        :today_time_value => get_user_total_today_time,
         :assignee         => User.current.name
     }
   end
@@ -104,7 +103,15 @@ class BoardController < ApplicationController
         :is_changed       => is_changed,
         :errors           => errors,
         :info             => l(:notification_time_updated),
-        :today_time_value => get_user_total_today_time
+    }
+  end
+
+  def time_for_today_statistic
+    get_user_total_today_time
+
+    render :json => {
+        :time_total    => @time_total,
+        :time_pipeline => @time_pipeline
     }
   end
 end

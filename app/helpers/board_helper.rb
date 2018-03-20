@@ -13,7 +13,7 @@ module BoardHelper
       end
     end
 
-    @real_time = real
+    @real_time      = real
     @suggested_time = suggested.round(2)
   end
 
@@ -39,23 +39,18 @@ module BoardHelper
     end
 
     total_for_today = ActiveRecord::Base.connection.execute("
-      SELECT
-          SUM(custom_values.value) AS total_for_today
-      FROM
-          issues
-              INNER JOIN
-          custom_values ON issues.id = custom_values.customized_id
-      WHERE
-          issues.assigned_to_id = #{current_user.id}
-              AND issues.status_id NOT IN (SELECT
-                  id
-              FROM
-                  issue_statuses
-              WHERE
-                  is_closed = 1)
-              AND custom_values.custom_field_id = #{IssueCustomField.find_by_name(settings_today_time_field_name).id};
-    ")
+    SELECT
+      SUM(custom_values.value)                                                     AS h_t,
+      SUM(CASE WHEN p_statuses.id IS NOT NULL THEN custom_values.value ELSE 0 END) AS h_p
+    FROM issues
+      INNER JOIN custom_values ON issues.id = custom_values.customized_id
+      LEFT JOIN issue_statuses AS p_statuses ON issues.status_id = p_statuses.id AND
+                                                p_statuses.name = #{ActiveRecord::Base.sanitize(settings_today_time_status_name)}
+    WHERE issues.assigned_to_id = #{current_user.id}
+          AND custom_values.custom_field_id = #{IssueCustomField.find_by_name(settings_today_time_field_name).id};
+    ").to_a[0]
 
-    total_for_today.to_a[0][0].to_f.round(2)
+    @time_total    = (total_for_today[0].nil? ? 0 : total_for_today[0]).round(2)
+    @time_pipeline = (total_for_today[1].nil? ? 0 : total_for_today[1]).round(2)
   end
 end

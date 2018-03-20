@@ -1,7 +1,10 @@
 <% query_options = nil unless defined?(query_options) %>
 <% query_options ||= {} %>
 
-<h2><%= l(:label_workload_management) %></h2> <h3><%= l(:label_your_time_for_today) %>: <span class="today_time_value"><%= get_user_total_today_time %> hours</span></h3>
+<h2><%= l(:label_workload_management) %></h2>
+<% get_user_total_today_time %>
+<h3><%= l(:label_your_time_for_today) %>: <span class="today_time_total"><%= @time_total %></span></h3>
+<h3><%= l(:label_your_pipiline_for_today) %>: <span class="today_time_pipeline"><%= @time_pipeline %></span></h3>
 <% html_title l(:label_workload_management) %>
 
 <style>

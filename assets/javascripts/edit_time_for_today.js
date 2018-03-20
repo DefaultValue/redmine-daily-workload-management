@@ -53,7 +53,7 @@
                         if (response.is_changed) {
                             $(".workload-management-flash-notice").show().html(response.info);
                             $input.siblings(".time_for_today_value").html($input.val());
-                            $(".today_time_value").html(response.today_time_value);
+                            refreshTimeForTodayStatistic();
                         }
                     } else {
                         for (var i = 0; i < response.errors.length; i++) {
@@ -64,6 +64,21 @@
                         oldTimeForTodayValue = 0;
                     }
                     setTimeout(hideFlash, 5000);
+                }
+            });
+        }
+
+        /** @TODO merge with other file */
+        function refreshTimeForTodayStatistic() {
+            $.ajax({
+                "type":     "GET",
+                "url":       "board/time-for-today-statistic",
+                "dataType": "json",
+                "success":   function (response) {
+                    if (response) {
+                        $(".today_time_total").html(response.time_total);
+                        $(".today_time_pipeline").html(response.time_pipeline);
+                    }
                 }
             });
         }

@@ -24,7 +24,7 @@
                         closest_issue.find(".status").html(response.status);
                         closest_issue.find(".assignee").html(response.assignee);
                         $(".workload-management-flash-notice").show().html(response.info);
-                        $(".today_time_value").html(response.today_time_value);
+                        refreshTimeForTodayStatistic();
                     } else {
                         for (var i = 0; i < response.errors.length; i++) {
                             var li = "<li>"+response.errors[i]+"</li>";
@@ -35,6 +35,21 @@
                 }
             });
         });
+
+        /** @TODO merge with other file */
+        function refreshTimeForTodayStatistic() {
+            $.ajax({
+                "type":     "GET",
+                "url":       "board/time-for-today-statistic",
+                "dataType": "json",
+                "success":   function (response) {
+                    if (response) {
+                        $(".today_time_total").html(response.time_total);
+                        $(".today_time_pipeline").html(response.time_pipeline);
+                    }
+                }
+            });
+        }
 
         function hideFlash() {
             $(".workload-management-errors").hide();
