@@ -1,4 +1,15 @@
 module BoardHelper
+
+  # Bad solution (done as workaround)
+  @@handling_board_update = false
+  def self.setHandleBoardUpdate(x)
+    @@handling_board_update = x
+  end
+
+  def self.getHandleBoardUpdate
+    @@handling_board_update
+  end
+
   def get_total_for_today(issue)
     real      = ''
     suggested = 0

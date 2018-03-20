@@ -65,7 +65,10 @@ module IssuePatch
         end
       end
 
-      self.validate_total_for_today
+      if BoardHelper.getHandleBoardUpdate
+        BoardHelper.setHandleBoardUpdate(false)
+        self.validate_total_for_today
+      end
 
     end
 
