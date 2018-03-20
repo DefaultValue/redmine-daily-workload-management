@@ -25,6 +25,14 @@ module BoardHelper
     (Setting.plugin_daily_workload_management && Setting.plugin_daily_workload_management.include?('status')) ? Setting.plugin_daily_workload_management['status'] : ''
   end
 
+  def settings_resolved_status_name
+    (Setting.plugin_daily_workload_management && Setting.plugin_daily_workload_management.include?('settings_resolved_status')) ? Setting.plugin_daily_workload_management['settings_resolved_status'] : ''
+  end
+
+  def settings_in_progress_status_name
+    (Setting.plugin_daily_workload_management && Setting.plugin_daily_workload_management.include?('settings_in_progress_status')) ? Setting.plugin_daily_workload_management['settings_in_progress_status'] : ''
+  end
+
   def get_user_total_today_time
     today_status    = IssueStatus.find_by_name(settings_today_time_status_name)
     total_for_today = 0

@@ -28,3 +28,33 @@
     <% end %>
   </p>
 </div>
+<div class="box tabular settings">
+  <p>
+    <label><%= l(:settings_resolved_status) %>:</label>
+    <% time_for_today_required_statuses.each do |status| %>
+      <label class="block">
+        <% if defined?(settings) && settings && settings.include?('settings_resolved_status') && settings['settings_resolved_status'] == status.name %>
+          <%= radio_button_tag 'settings[settings_resolved_status]', status.name , true %>
+        <% else %>
+          <%= radio_button_tag 'settings[settings_resolved_status]', status.name , false %>
+        <% end %>
+        <%= status.name %>
+      </label>
+    <% end %>
+  </p>
+</div>
+<div class="box tabular settings">
+  <p>
+    <label><%= l(:settings_in_progress_status) %>:</label>
+    <% time_for_today_required_statuses.each do |status| %>
+      <label class="block">
+        <% if defined?(settings) && settings && settings.include?('settings_in_progress_status') && settings['settings_in_progress_status'] == status.name %>
+          <%= radio_button_tag 'settings[settings_in_progress_status]', status.name , true %>
+        <% else %>
+          <%= radio_button_tag 'settings[settings_in_progress_status]', status.name , false %>
+        <% end %>
+        <%= status.name %>
+      </label>
+    <% end %>
+  </p>
+</div>

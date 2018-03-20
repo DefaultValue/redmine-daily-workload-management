@@ -82,8 +82,8 @@
           </td>
           <td class="actions">
             <a class="icon icon-workflows will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_will_do_today) %></a>
-            <a class="icon icon-summary will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_in_progress) %></a>
-            <a class="icon icon-ok will-do-today" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_resolved) %></a>
+            <a class="icon icon-summary mark-in-progress" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_in_progress) %></a>
+            <a class="icon icon-ok mark-resolved" data-issue-id="<%= issue.id %>" href="#"><%= l(:label_mark_resolved) %></a>
           </td>
         </tr>
       <% end %>
@@ -97,7 +97,9 @@
 <% end %>
 
 
-<%= javascript_include_tag 'will_do_today', :plugin     => 'daily_workload_management' %>
+<%= javascript_include_tag 'will_do_today',       :plugin => 'daily_workload_management' %>
+<%= javascript_include_tag 'in_progress',         :plugin => 'daily_workload_management' %>
+<%= javascript_include_tag 'resolved',            :plugin => 'daily_workload_management' %>
 <%= javascript_include_tag 'edit_time_for_today', :plugin => 'daily_workload_management' %>
 
 <!-- @TODO Move these styles to plugin assets-->
