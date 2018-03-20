@@ -2,7 +2,7 @@ en:
   top_menu_workload_management:      Workload Management
   label_workload_management:         Workload Management
   label_your_time_for_today:         Your total time for today
-  label_your_pipiline_for_today:     Your pipiline time for today
+  label_your_pipiline_for_today:     Your pipeline time for today
   label_will_do_today:               Will do today
   permission_view_board:             View Workload Management page
   notification_issue_updated:        Issue successfully updated
