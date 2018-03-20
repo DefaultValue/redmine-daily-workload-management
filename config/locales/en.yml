@@ -7,7 +7,7 @@ en:
   permission_view_board:             View Workload Management page
   notification_issue_updated:        Issue successfully updated
   notification_time_updated:         "'Time for today' successfully updated"
-  notification_no_status_today_time: "Status for 'Time spent today' not found"
+  notification_no_status_for_action: "Status for this action is not configured in plugin settings"
   notification_should_be_greater:    "should be less than left time (%{left_hours})"
   settings_select_custom_field:      "Custom field for specifying your today's work time ('Time for today')"
   settings_select_status:            Issue status for 'time for today' field

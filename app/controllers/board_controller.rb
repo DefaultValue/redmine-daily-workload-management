@@ -68,7 +68,7 @@ class BoardController < ApplicationController
       errors        = @issue.errors.full_messages
       is_successful = errors.empty?
     else
-      errors        = l(:notification_no_status_today_time)
+      errors        = [l(:notification_no_status_for_action)]
       is_successful = false
     end
 
@@ -95,7 +95,7 @@ class BoardController < ApplicationController
       errors        = @issue.errors.full_messages
       is_successful = errors.empty?
     else
-      errors        = l(:notification_no_status_today_time)
+      errors        = [l(:notification_no_status_for_action)]
       is_successful = false
     end
 
