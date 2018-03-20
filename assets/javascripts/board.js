@@ -47,13 +47,27 @@
             var issueId         = workTodayButton.attr("data-issue-id");
             var url             = "board/issue/" + issueId + "/will-do-today";
 
+            var time_value = $issue.find(".time_for_today_value").html();
+            time_value     = time_value ? time_value : $issue.find(".time_for_today_input").val();
+
             $.ajax({
                 "type":     "POST",
                 "url":       url,
                 "dataType": "json",
-                "data":      {time: workTodayButton.closest(".issue").find(".time_for_today_value").html()},
+                "data":      {time: time_value},
                 "success":   function (response) {
-                    handleStatusChangeResponse(response, $issue);
+
+                    if (response.success && response.success === true) {
+                        $issue.find(".status").html(response.status);
+                        $issue.find(".assignee").html(response.assignee);
+                        $(".workload-management-flash-notice").show().html(response.info);
+                        $issue.find(".time_for_today_value").html(time_value);
+
+                        refreshTimeForTodayStatistic();
+                    } else {
+                        renderErrors(response.errors);
+                    }
+                    setTimeout(hideFlash, 5000);
                 }
             });
         });

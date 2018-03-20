@@ -79,10 +79,10 @@ module IssuePatch
         if custom_field_name == settings_today_time_field_name && issue_status_name == settings_today_time_status_name
           estimated_hours    = self.estimated_hours.to_f
           spent_hours        = self.spent_hours
-          left_hours         = estimated_hours - spent_hours
+          left_hours         = (estimated_hours - spent_hours).round(2)
           custom_field_value = custom_field_value.value.to_f
           if estimated_hours != 0 && left_hours < custom_field_value
-            errors.add custom_field_name, l(:notification_should_be_greater, :left_hours => left_hours.round(2).to_s)
+            errors.add custom_field_name, l(:notification_should_be_greater, :left_hours => left_hours.to_s)
           end
         end
       end
