@@ -2,21 +2,16 @@
     "use strict";
 
     (function ($) {
-        var oldTimeForTodayValue = 0;
 
+        /** --------- Edit time for today --------- */
         $(".time_for_today").on("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
 
             $(".workload-management-flash-notice").hide();
 
-            var $timeInput = $(this).find(".time_for_today_input");
-            var $timeValue = $(this).find(".time_for_today_value");
-
-            oldTimeForTodayValue = $timeValue.html();
-
-            $timeInput.show().focus();
-            $timeValue.hide();
+            $(this).find(".time_for_today_input").show().focus();
+            $(this).find(".time_for_today_value").hide();
         });
 
         var $timeForTodayInput = $(".time_for_today_input");
@@ -38,35 +33,6 @@
                 $(this).blur();
             }
         });
-
-        function updateTimeForToday(issueId, timeForToday) {
-            var $input = $(this);
-            var url    = "board/issue/" + issueId + "/update-time-for-today";
-
-            $.ajax({
-                "type":     "POST",
-                "url":       url,
-                "dataType": "json",
-                "data":      {time: timeForToday},
-                "success":   function (response) {
-                    if (response.success && response.success === true) {
-                        if (response.is_changed) {
-                            $(".workload-management-flash-notice").show().html(response.info);
-                            $input.siblings(".time_for_today_value").html($input.val());
-                            refreshTimeForTodayStatistic();
-                        }
-                    } else {
-                        for (var i = 0; i < response.errors.length; i++) {
-                            var li = "<li>"+response.errors[i]+"</li>";
-                            $(".workload-management-errors").show().find("ul").append(li);
-                        }
-                        $input.siblings(".time_for_today_value").html(oldTimeForTodayValue);
-                        oldTimeForTodayValue = 0;
-                    }
-                    setTimeout(hideFlash, 5000);
-                }
-            });
-        }
 
         /** --------- Mark task as will do today --------- */
         $(".will-do-today").on("click", function (e) {
@@ -93,10 +59,7 @@
                         $(".workload-management-flash-notice").show().html(response.info);
                         refreshTimeForTodayStatistic();
                     } else {
-                        for (var i = 0; i < response.errors.length; i++) {
-                            var li = "<li>"+response.errors[i]+"</li>";
-                            $(".workload-management-errors").show().find("ul").append(li);
-                        }
+                        renderErrors(response.errors);
                     }
                     setTimeout(hideFlash, 5000);
                 }
@@ -129,10 +92,7 @@
                         $(".workload-management-flash-notice").show().html(response.info);
                         refreshTimeForTodayStatistic();
                     } else {
-                        for (var i = 0; i < response.errors.length; i++) {
-                            var li = "<li>"+response.errors[i]+"</li>";
-                            $(".workload-management-errors").show().find("ul").append(li);
-                        }
+                        renderErrors(response.errors);
                     }
                     setTimeout(hideFlash, 5000);
                 }
@@ -164,15 +124,36 @@
                         $(".workload-management-flash-notice").show().html(response.info);
                         refreshTimeForTodayStatistic();
                     } else {
-                        for (var i = 0; i < response.errors.length; i++) {
-                            var li = "<li>"+response.errors[i]+"</li>";
-                            $(".workload-management-errors").show().find("ul").append(li);
-                        }
+                        renderErrors(response.errors);
                     }
                     setTimeout(hideFlash, 5000);
                 }
             });
         });
+
+        function updateTimeForToday(issueId, timeForToday) {
+            var $input = $(this);
+            var url    = "board/issue/" + issueId + "/update-time-for-today";
+
+            $.ajax({
+                "type":     "POST",
+                "url":       url,
+                "dataType": "json",
+                "data":      {time: timeForToday},
+                "success":   function (response) {
+                    if (response.success && response.success === true) {
+                        if (response.is_changed) {
+                            $(".workload-management-flash-notice").show().html(response.info);
+                            $input.siblings(".time_for_today_value").html($input.val());
+                            refreshTimeForTodayStatistic();
+                        }
+                    } else {
+                        renderErrors(response.errors);
+                    }
+                    setTimeout(hideFlash, 5000);
+                }
+            });
+        }
 
         function refreshTimeForTodayStatistic() {
             $.ajax({
@@ -186,6 +167,13 @@
                     }
                 }
             });
+        }
+
+        function renderErrors(errors) {
+            for (var i = 0; i < errors.length; i++) {
+                var li = "<li>" + errors[i] + "</li>";
+                $(".workload-management-errors").show().find("ul").append(li);
+            }
         }
 
         function hideFlash() {
