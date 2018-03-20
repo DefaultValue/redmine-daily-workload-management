@@ -7,27 +7,12 @@
 <h3><%= l(:label_your_pipiline_for_today) %>: <span class="today_time_pipeline"><%= @time_pipeline %></span></h3>
 <% html_title l(:label_workload_management) %>
 
-<style>
-  .flash-notice-overlay {
-    position: relative;
-  }
-  .flash-notice-overlay #errorExplanation.workload-management-errors,
-  .flash-notice-overlay #flash_notice.workload-management-flash-notice {
-    position: absolute;
-    left: 0;
-    right: 0;
-    opacity: 0.8;
-    width: 30%;
-    margin: 0 auto;
-  }
-</style>
-
 <div class="flash-notice-overlay">
-  <div class="flash notice workload-management-flash-notice" id="flash_notice" style="display: none;"></div>
+  <div class="flash notice workload-management-flash-notice flash-notice-overlay-content" id="flash_notice" style="display: none;"></div>
 </div>
 
 <div class="flash-notice-overlay">
-  <div id="errorExplanation" class="workload-management-errors" style="display: none;">
+  <div id="errorExplanation" class="workload-management-errors flash-notice-overlay-content" style="display: none;">
     <ul>
     </ul>
   </div>
@@ -128,4 +113,19 @@
   tr.even.priority-lowest { background: #f2faff; }
   tr.priority-lowest a { color: #559; }
   tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #add7f3; }
+
+  .flash-notice-overlay {
+    position: fixed;
+    z-index: 9999;
+    top: 50%;
+    width: 100%;
+  }
+  .flash-notice-overlay-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+    width: 30%;
+    margin: 0 auto;
+  }
 </style>
