@@ -104,6 +104,7 @@ class BoardController < ApplicationController
         :errors           => errors,
         :info             => l(:notification_issue_updated),
         :status           => issue_status_name,
+        :assignee         => User.current.name
     }
   end
 

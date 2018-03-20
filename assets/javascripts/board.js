@@ -43,6 +43,7 @@
             $(".workload-management-flash-notice").hide();
 
             var workTodayButton = $(this);
+            var $issue          = workTodayButton.closest(".issue");
             var issueId         = workTodayButton.attr("data-issue-id");
             var url             = "board/issue/" + issueId + "/will-do-today";
 
@@ -52,16 +53,7 @@
                 "dataType": "json",
                 "data":      {time: workTodayButton.closest(".issue").find(".time_for_today_value").html()},
                 "success":   function (response) {
-                    if (response.success && response.success === true) {
-                        var closest_issue = workTodayButton.closest(".issue");
-                        closest_issue.find(".status").html(response.status);
-                        closest_issue.find(".assignee").html(response.assignee);
-                        $(".workload-management-flash-notice").show().html(response.info);
-                        refreshTimeForTodayStatistic();
-                    } else {
-                        renderErrors(response.errors);
-                    }
-                    setTimeout(hideFlash, 5000);
+                    handleStatusChangeResponse(response, $issue);
                 }
             });
         });
@@ -75,6 +67,7 @@
             $(".workload-management-flash-notice").hide();
 
             var workTodayButton = $(this);
+            var $issue          = workTodayButton.closest(".issue");
             var issueId         = workTodayButton.attr("data-issue-id");
             var url             = "board/issue/" + issueId + "/mark-in-progress";
 
@@ -84,17 +77,7 @@
                 "dataType": "json",
                 "data":      {status: 1},
                 "success":   function (response) {
-                    console.log(response);
-
-                    if (response.success && response.success === true) {
-                        var closest_issue = workTodayButton.closest(".issue");
-                        closest_issue.find(".status").html(response.status);
-                        $(".workload-management-flash-notice").show().html(response.info);
-                        refreshTimeForTodayStatistic();
-                    } else {
-                        renderErrors(response.errors);
-                    }
-                    setTimeout(hideFlash, 5000);
+                    handleStatusChangeResponse(response, $issue);
                 }
             });
         });
@@ -108,6 +91,7 @@
             $(".workload-management-flash-notice").hide();
 
             var workTodayButton = $(this);
+            var $issue          = workTodayButton.closest(".issue");
             var issueId         = workTodayButton.attr("data-issue-id");
             var url             = "board/issue/" + issueId + "/mark-resolved";
 
@@ -117,19 +101,22 @@
                 "dataType": "json",
                 "data":      {status: 2},
                 "success":   function (response) {
-                    console.log(response);
-                    if (response.success && response.success === true) {
-                        var closest_issue = workTodayButton.closest(".issue");
-                        closest_issue.find(".status").html(response.status);
-                        $(".workload-management-flash-notice").show().html(response.info);
-                        refreshTimeForTodayStatistic();
-                    } else {
-                        renderErrors(response.errors);
-                    }
-                    setTimeout(hideFlash, 5000);
+                    handleStatusChangeResponse(response, $issue);
                 }
             });
         });
+
+        function handleStatusChangeResponse(response, $issue) {
+            if (response.success && response.success === true) {
+                $issue.find(".status").html(response.status);
+                $issue.find(".assignee").html(response.assignee);
+                $(".workload-management-flash-notice").show().html(response.info);
+                refreshTimeForTodayStatistic();
+            } else {
+                renderErrors(response.errors);
+            }
+            setTimeout(hideFlash, 5000);
+        }
 
         function updateTimeForToday(issueId, timeForToday) {
             var $input = $(this);
