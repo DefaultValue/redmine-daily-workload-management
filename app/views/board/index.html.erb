@@ -3,9 +3,13 @@
 
 <h2><%= l(:label_workload_management) %></h2>
 <% get_user_total_today_time %>
-<h3><%= l(:label_your_time_for_today) %>: <span class="today_time_total"><%= @time_total %></span></h3>
-<h3><%= l(:label_your_pipiline_for_today) %>: <span class="today_time_pipeline"><%= @time_pipeline %></span></h3>
+<h3>
+<span>Time for today:</span>
+<span><%= l(:label_your_time_for_today) %>: <span class="today_time_total"><%= @time_total %></span></span>
+ | <span><%= l(:label_your_pipiline_for_today) %>: <span class="today_time_pipeline"><%= @time_pipeline %></span></span>
+ | <span><%= l(:label_your_tracked_time) %>: <span class="today_time_tracked"><%= @time_tracked %></span></span>
 <% html_title l(:label_workload_management) %>
+</h3>
 
 <div class="flash-notice-overlay">
   <div class="flash notice workload-management-flash-notice flash-notice-overlay-content" id="flash_notice" style="display: none;"></div>

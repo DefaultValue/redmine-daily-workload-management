@@ -48,8 +48,8 @@ module BoardHelper
 
     total_for_today = ActiveRecord::Base.connection.execute("
     SELECT
-      SUM(custom_values.value)                                                     AS h_t,
-      SUM(CASE WHEN p_statuses.id IS NOT NULL THEN custom_values.value ELSE 0 END) AS h_p
+      SUM(custom_values.value)                                                     AS h_total,
+      SUM(CASE WHEN p_statuses.id IS NOT NULL THEN custom_values.value ELSE 0 END) AS h_pipeline
     FROM issues
       INNER JOIN custom_values ON issues.id = custom_values.customized_id
       LEFT JOIN issue_statuses AS p_statuses ON issues.status_id = p_statuses.id AND
@@ -58,7 +58,16 @@ module BoardHelper
           AND custom_values.custom_field_id = #{IssueCustomField.find_by_name(settings_today_time_field_name).id};
     ").to_a[0]
 
+    time_tracked = ActiveRecord::Base.connection.execute("
+    SELECT
+      SUM(hours) AS total_tracked
+    FROM time_entries
+        WHERE time_entries.user_id = #{current_user.id}
+          AND time_entries.spent_on = '#{DateTime.now.strftime('%Y-%m-%d')}';
+    ").to_a[0]
+
     @time_total    = (total_for_today[0].nil? ? 0 : total_for_today[0]).round(2)
     @time_pipeline = (total_for_today[1].nil? ? 0 : total_for_today[1]).round(2)
+    @time_tracked  = (time_tracked[0].nil?    ? 0 : time_tracked[0]).round(2)
   end
 end
