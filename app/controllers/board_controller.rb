@@ -55,8 +55,10 @@ class BoardController < ApplicationController
     issue_status      = IssueStatus.find_by_name(issue_status_name)
 
     if issue_status
-      @issue.status_id      = issue_status.id
-      @issue.assigned_to_id = User.current.id
+      @issue.init_journal(User.current)
+
+      @issue.status      = issue_status
+      @issue.assigned_to = User.current
       @issue.custom_field_values.each do |field|
         if field.custom_field.name == settings_today_time_field_name
           field.value = params[:time]
@@ -64,6 +66,7 @@ class BoardController < ApplicationController
       end
 
       BoardHelper.setHandleBoardUpdate(true)
+
       @issue.save(:validate => true)
 
       errors        = @issue.errors.full_messages
@@ -89,8 +92,11 @@ class BoardController < ApplicationController
     issue_status      = IssueStatus.find_by_name(issue_status_name)
 
     if issue_status
-      @issue.status_id      = issue_status.id
-      @issue.assigned_to_id = User.current.id
+      @issue.init_journal(User.current)
+
+      @issue.status      = issue_status
+      @issue.assigned_to = User.current
+
       @issue.save(:validate => true)
 
       errors        = @issue.errors.full_messages
@@ -114,6 +120,7 @@ class BoardController < ApplicationController
     is_changed    = false
     errors        = []
     is_successful = true
+    @issue.init_journal(User.current)
 
     @issue.custom_field_values.each do |field|
       if field.custom_field.name == settings_today_time_field_name
@@ -124,6 +131,7 @@ class BoardController < ApplicationController
 
     if is_changed
       BoardHelper.setHandleBoardUpdate(true)
+
       @issue.save(:validate => true)
 
       errors        = @issue.errors.full_messages
